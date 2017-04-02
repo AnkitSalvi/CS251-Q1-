@@ -1,0 +1,169 @@
+\documentclass[a4paper]{article}
+\title{Merge Sort Algorithm}
+\usepackage{algpseudocode,algorithm}
+\usepackage{amsmath}
+\usepackage{subfig}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\begin{document}
+
+\title{\textbf{Technique to multipy two numbers}}
+
+\author{\textit{Maharshi}}
+\maketitle
+
+
+\section*{}
+In the following document we are going to depict a method for quick multiplication of two numbers satisfying a certain condition.Also we here try to give a mental procedure to perform the same and also an algebraic reasoning for the correctness of the method.
+Let the numbers be of the type XY * AB.
+There will be two cases we will be dealing with depicted in \ref{fig:graph2} and \ref{fig:graph3}.
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=.4]{graph1.pdf}
+\caption{flowgraph}
+\end{figure}
+
+for more information:\url{https://en.wikipedia.org/wiki/Vedic_Mathematics_(book)}
+\subsection*{Case 1}
+When the first digits of the two numbers to be multiplied is the same and the unit's digit add up to 10.
+Numbers of the type XY*X(10-Y)
+Let us take an example to understand the case.
+Example: 66$*$64.
+\begin{equation}
+$$We will follow the following steps to get to the answer\\
+Step 1:\\
+multiply : $$X*(X+1)$$ In our example: $$6*(6+1)=42$$
+Step 2:
+multiply the unit's digit numbers of the two numbers:
+$$Y*(10-Y)$$ In our example $$6*4=24$$
+Final result: We will concatenate the two results obtained above$$42:24->4224$$
+$$
+\end{equation}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=.4]{graph3.pdf}
+\caption{flowgraph}
+\label{fig:graph3}
+\end{figure}
+
+
+\begin{table}[h]
+$\ast$Tabular description to multiply two numbers of the type depicted in Case1\\
+
+\centering
+\begin{tabular}{ | l | l | }
+\hline
+X & Y\\
+\hline
+X & 10-Y\\
+\hline
+X*(X+1) & Y*(10-Y)\\
+\hline 
+\end{tabular}
+\end{table}
+$\ast$There can be one more case \footnote{Case when the product of the term at unit's place turns out to be a single digit number, in that case we will use a Zero before the the single digit number Ex: 41*49=1609}
+
+
+\subsection*{Case 2}
+When the unit's digits of the two numbers to be multiplied is the same and the ten's digits add up to 10.\\
+Numbers of the type XY*(10-X)Y
+Let us take an example to understand the case.
+Example: $$34*74$$.
+\begin{equation}
+$$We will follow the following steps to get to the answer
+Step 1:
+Evaluate: $$X*(10-X)+Y$$ In our example: $$3*7+4=25$$
+Step 2:
+multiply the unit's digit numbers of the two numbers:
+$$Y*Y$$ In our example $$4*4=16$$
+Final result: We will concatenate the two results obtained above$$25:26->2516$$
+$$
+\end{equation}
+The above method has been referred from  \cite{small}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=.3]{graph2.pdf}
+\caption{flowgraph}
+\label{fig:graph2}
+\end{figure}
+
+\begin{table}[h]
+$\ast$Tabular description to multiply two numbers of the type depicted in Case2\\
+
+\centering
+\begin{tabular}{ | l | l | }
+\hline
+X & Y\\
+\hline
+10-X & Y\\
+\hline
+X*(10-X)+Y & Y*Y\\
+\hline 
+\end{tabular}
+\end{table}
+
+
+
+
+
+\begin{algorithm}
+\caption{Multiplication Algorithm for 2-dight numbers}\label{Merge}
+\begin{algorithmic}[1]
+ \Procedure{MUL}{XY,AB} 
+ \If{X==A and Y+B==10}
+ 	\State (X=X*(A+1))
+   	\State (Y=Y*B)
+ \EndIf
+ \If{Y==B and X+A==10}
+    \State (X=X*A+B)
+    \State (Y=Y*B)
+ \EndIf
+\State Return (XY)
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\section*{Algebraic Explaination}
+\subsubsection*{Case1}
+upon multiplying XY*X(10-Y) algebrailcally it yields
+$$(X^2+10X):(10Y-Y^2) -> X(X+1):Y(10-Y)$$
+Hence the algebraic proof is simple.
+
+\subsubsection*{Case2}
+upon multiplying XY*(10-X)Y algebrailcally it yields
+$$(10X-X^2+Y):Y^2 -> X(10-X)+Y:Y^2$$
+Hence the algebraic proof is simple.
+
+
+\section*{Doing it mentally}
+First of all check whether the 10's digit of the two numbers is same or the unit's digit.If the 10's digit is same and the unit's digit sums up to ten than to get the product multiply the ten's digit with the number one greater than itself and multiply the unit's digit numbers and conceate the two numbers to get the product.
+If the units's digit is same and the 10's digit sum up to 10 than multiply the 10's digit and add the unit's digit to the product and multiply the units digit numbers and conceate the two.
+\section*{Easier and Faster}
+The method is both easier and faster because we use the facts already and generalize them to perform multiplication on n digit numbers.
+\section*{Generalization}
+\subsubsection*{Case1 (when X=Y and $N_1+N_2=10^{n}$)}
+\begin{align*}
+   (XN_1)*(YN_2) &= (X*10^n+N_1)*(Y*10^n+N_2)  \\
+     &= (X^2)*(10^{2n})+X*10^{2n}+N_1*N_2  \\
+     &= X*(X+1)*10^{2n}+N_1*N_2  \\
+\end{align*}
+\subsubsection*{Case2 (when $X+Y=10^{n}$ and $N_1=N_2$ )}
+\begin{align*}
+   (XN_1)*(YN_2) &= (X*10^{n-1}+N_1)*(Y*10^{n-1}+N_2)  \\
+     &= (X*Y)*10^{2n-2}+N_1*(X+Y)*10^{n-1}+N_1*N_2 \\
+     &= (X*Y+N_1*10)*10^{2n-2}+N_1*N_2 \\
+\end{align*}
+
+
+\bibliographystyle{abbrv}
+\bibliography{abc}
+
+
+\end{document}
